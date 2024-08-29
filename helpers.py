@@ -1,6 +1,7 @@
 import os
 import random
 import logging
+import colorama
 
 from dotenv import load_dotenv
 from instagrapi import Client
@@ -74,12 +75,18 @@ def like_follow_comment_by_hashtag(
     comment: bool = False,
     follow: bool = False,
 ) -> None:
-    for hashtag in hashtags[:]:
+    count = 1
+    total = len(hashtags) * 20
+    for hashtag in hashtags:
         medias = cl.hashtag_medias_recent(hashtag, 20)
         try:
             for i, media in enumerate(medias, 1):
                 cl.media_like(media.id)
-                print(f"Liked post number {i} of hashtag {hashtag}")
+                progress_bar(
+                    i,
+                    total,
+                    suffix=f"Processing hashtag: {hashtag:<20}",
+                )
                 cl.delay_range = [6, 11]
 
                 if follow:
@@ -95,6 +102,8 @@ def like_follow_comment_by_hashtag(
                         print(f"Commented on post number {i} of hashtag {hashtag}")
                         cl.delay_range = [2, 6]
 
+                count += 1
+
         except MediaUnavailable:
             print("Media Unavailable!!!")
 
@@ -109,3 +118,29 @@ def unfollow_followers(cl: Client, amount: int) -> None:
             print(f"Unfollowed users: {count}")
             cl.delay_range = [1, 3]
             count += 1
+
+
+def progress_bar(
+    iteration,
+    total,
+    prefix="",
+    suffix="",
+    decimals=1,
+    length=60,
+    fill="█",
+    printEnd="\r",
+):
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + "-" * (length - filledLength)
+
+    print(
+        colorama.Fore.YELLOW + f"\r{prefix} |{bar}| {percent}% {suffix}", end=printEnd
+    )
+
+    if iteration == total:
+        print(
+            colorama.Fore.GREEN + f"\r{prefix} |{bar}| {percent}% {suffix}",
+            end=printEnd,
+        )
+        print(colorama.Fore.RESET)
