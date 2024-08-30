@@ -1,9 +1,9 @@
-frequency = 2500
-duration = 2000
+frequency: int = 2500
+duration: int = 2000
 
-comments = ["🔥🔥🔥", "🔥🔥🔥🔥", "🔥🔥🔥🔥🔥", "🔥❤️", "🔥❤️🔥"]
+comments: list[str] = ["🔥🔥🔥", "🔥🔥🔥🔥", "🔥🔥🔥🔥🔥", "🔥❤️", "🔥❤️🔥"]
 
-popular_hashtags = [
+popular_hashtags: list[str] = [
     "arlettemagazine",
     "arcanamagazine",
     "heavyrainmag",
@@ -32,7 +32,7 @@ popular_hashtags = [
     "фото",
 ]
 
-hashtags = [
+hashtags: list[str] = [
     "photography",
     "photographer",
     "photooftheday",
