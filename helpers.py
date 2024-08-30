@@ -21,7 +21,7 @@ def progress_bar(
     prefix="",
     suffix="",
     decimals=1,
-    length=60,
+    length=80,
     fill="█",
     printEnd="\r",
 ):
@@ -111,7 +111,7 @@ class InstagramBot:
                 for i, media in enumerate(medias, 1):
                     self.cl.media_like(media.id)
                     progress_bar(
-                        i,
+                        count,
                         total,
                         prefix=f"{count}/{total}",
                         suffix=f"Processing hashtag: {hashtag:<20}",
